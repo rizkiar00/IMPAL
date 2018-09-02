@@ -1,0 +1,108 @@
+CREATE TABLE Bahan(
+    id_bahan varchar(10) NOT NULL,
+    id_produk varchar(10) NOT NULL,
+    nama_bahan varchar(20),
+    stock_bahan int,
+    PRIMARY KEY (id_bahan),
+    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk) 
+);
+INSERT INTO Bahan(id_bahan ,id_produk ,nama_bahan ,stock_bahan)
+VALUES ('a1', 'x1', 'tepung', 15 );
+SELECT * FROM Bahan;
+
+CREATE TABLE Produk(
+    id_produk varchar(10) NOT NULL,
+    id_bahan varchar(10) NOT NULL,
+    id_penjualan varchar(10) NOT NULL,
+    nama_produk varchar(20),
+    stock_produk int,
+    harga_produk int,
+    PRIMARY KEY (id_produk),
+    FOREIGN KEY (id_bahan) REFERENCES Bahan(id_bahan) 
+    FOREIGN KEY (id_penjualan) REFERENCES Penjualan(id_penjualan) 
+);
+INSERT INTO Bahan(id_produk ,id_bahan  ,id_penjualan ,nama_produk,stock_produk,harga_produk)
+VALUES ('x1', 'a1', 'c1', 'brownies',2,40000 );
+SELECT * FROM Produk;
+
+CREATE TABLE Penjualan(
+    id_penjualan varchar(10) NOT NULL,
+    id_produk varchar(10) NOT NULL,
+    id_laporan varchar(10) NOT NULL,
+    nama_pelanggan varchar(20),
+    alamat_pelanggan varchar(30),
+    tanggal_penjualan date,
+    jumlah_penjualan int,
+    hp_pelanggan int,
+    PRIMARY KEY (id_penjualan),
+    FOREIGN KEY (id_bahan) REFERENCES Bahan(id_bahan) 
+    FOREIGN KEY (id_laporan) REFERENCES LaporanPenjualan(id_laporan) 
+);
+INSERT INTO Penjualan(id_penjualan ,id_produk  ,id_laporan ,nama_pelanggan,alamat_pelanggan,tanggal_penjualan,jumlah_penjualan,hp_pelanggan)
+VALUES ('g1', 'f1', 'c1', 'brownies','budi','jl duta no2',21-02-2017,1,081325742123 );
+SELECT * FROM Penjualan;
+
+CREATE TABLE LaporanPenjualan(
+    id_laporan varchar(10) NOT NULL,
+    id_keuangan varchar(10) NOT NULL,
+    tanggal_laporan date,
+    totalpendapatan int,
+    PRIMARY KEY (id_laporan),
+    FOREIGN KEY (id_keuangan) REFERENCES LaporanKeuangan(id_bahan)
+);
+INSERT INTO LaporanPenjualan(id_laporan ,id_keuangan  ,tanggal_laporan ,totalpendapatan)
+VALUES ('v2', 'b2',21-02-2017,1200000 );
+SELECT * FROM LaporanPenjualan;
+
+CREATE TABLE LaporanKeuangan(
+    id_keuangan varchar(10) NOT NULL,
+    id_koki varchar(10) NOT NULL,
+    id_sales varchar(10) NOT NULL,
+    id_admin varchar(10) NOT NULL,
+    bulan_laporan date,
+    totalpemasukan int,
+    totalpengeluaran int,
+    PRIMARY KEY (id_laporan ),
+    FOREIGN KEY (id_koki) REFERENCES Koki(id_koki) 
+    FOREIGN KEY (id_sales) REFERENCES Sales(id_sales) 
+    FOREIGN KEY (id_admin) REFERENCES Admin(id_admin) 
+);
+INSERT INTO LaporanPenjualan(id_keuangan ,id_koki ,id_sales ,id_admin ,bulan_laporan ,totalpemasukan ,totalpengeluaran )
+VALUES ('v3', 'w2','q3',08-2017,23400000,12000000);
+SELECT * FROM LaporanKeuangan;
+
+CREATE TABLE Koki(
+    id_koki varchar(10) NOT NULL,
+    nama_koki varchar(20),
+    alamat_koki varchar(30),
+    gaji_koki int,
+    password_koki varchar(20),
+    PRIMARY KEY (id_koki),
+);
+INSERT INTO Koki(id_koki,nama_koki ,gaji_koki ,password_koki)
+VALUES ('j3', 'sasa',1200000,'92389289823');
+SELECT * FROM Koki
+
+CREATE TABLE Admin(
+    id_admin varchar(10) NOT NULL,
+    nama_admin varchar(20),
+    alamat_admin varchar(30),
+    gaji_admin int,
+    password_admin varchar(20),
+    PRIMARY KEY (id_admin),
+);
+INSERT INTO Admin(id_admin ,nama_admin  ,gaji_admin  ,password_admin )
+VALUES ('s3', 'riri',1400000,'9sadasw289823');
+SELECT * FROM Admin
+
+CREATE TABLE Sales(
+    id_sales varchar(10) NOT NULL,
+    nama_sales varchar(20),
+    alamat_sales varchar(30),
+    gaji_sales int,
+    password_sales varchar(20),
+    PRIMARY KEY (id_sales),
+);
+INSERT INTO Sales(id_sales ,nama_sales  ,gaji_sales  ,password_sales )
+VALUES ('t3', 'lala',1340000,'9qweswerw');
+SELECT * FROM Sales
