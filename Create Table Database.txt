@@ -1,0 +1,98 @@
+CREATE TABLE Bahan(
+    id_bahan varchar(10) NOT NULL,
+    id_produk varchar(10) NOT NULL,
+    nama_bahan varchar(20),
+    stock_bahan int,
+    PRIMARY KEY (id_bahan),
+    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk) 
+);
+
+CREATE TABLE Produk(
+    id_produk varchar(10) NOT NULL,
+    id_bahan varchar(10) NOT NULL,
+    id_penjualan varchar(10) NOT NULL,
+    nama_produk varchar(20),
+    stock_produk int,
+    harga_produk int,
+    PRIMARY KEY (id_produk),
+    FOREIGN KEY (id_bahan) REFERENCES Bahan(id_bahan) 
+    FOREIGN KEY (id_penjualan) REFERENCES Penjualan(id_penjualan) 
+);
+
+CREATE TABLE Penjualan(
+    id_penjualan varchar(10) NOT NULL,
+    id_produk varchar(10) NOT NULL,
+    id_laporan varchar(10) NOT NULL,
+    nama_pelanggan varchar(20),
+    alamat_pelanggan varchar(30),
+    tanggal_penjualan date,
+    jumlah_penjualan int,
+    hp_pelanggan int,
+    PRIMARY KEY (id_penjualan),
+    FOREIGN KEY (id_bahan) REFERENCES Bahan(id_bahan) 
+    FOREIGN KEY (id_laporan) REFERENCES LaporanPenjualan(id_laporan) 
+);
+
+CREATE TABLE LaporanPenjualan(
+    id_laporan varchar(10) NOT NULL,
+    id_keuangan varchar(10) NOT NULL,
+    tanggal_laporan date,
+    totalpendapatan int,
+    PRIMARY KEY (id_laporan),
+    FOREIGN KEY (id_keuangan) REFERENCES LaporanKeuangan(id_bahan)
+);
+
+CREATE TABLE LaporanKeuangan(
+    id_keuangan varchar(10) NOT NULL,
+    id_koki varchar(10) NOT NULL,
+    id_sales varchar(10) NOT NULL,
+    id_admin varchar(10) NOT NULL,
+    bulan_laporan date,
+    totalpemasukan int,
+    totalpengeluaran int,
+    PRIMARY KEY (id_laporan ),
+    FOREIGN KEY (id_koki) REFERENCES Koki(id_koki) 
+    FOREIGN KEY (id_sales) REFERENCES Sales(id_sales) 
+    FOREIGN KEY (id_admin) REFERENCES Admin(id_admin) 
+);
+
+CREATE TABLE LaporanKeuangan(
+    id_keuangan varchar(10) NOT NULL,
+    id_koki varchar(10) NOT NULL,
+    id_sales varchar(10) NOT NULL,
+    id_admin varchar(10) NOT NULL,
+    bulan_laporan date,
+    totalpemasukan int,
+    totalpengeluaran int,
+    PRIMARY KEY (id_laporan ),
+    FOREIGN KEY (id_koki) REFERENCES Koki(id_koki) 
+    FOREIGN KEY (id_sales) REFERENCES Sales(id_sales) 
+    FOREIGN KEY (id_admin) REFERENCES Admin(id_admin) 
+);
+
+CREATE TABLE Koki(
+    id_koki varchar(10) NOT NULL,
+    nama_koki varchar(20),
+    alamat_koki varchar(30),
+    gaji_koki int,
+    password_koki varchar(20),
+    PRIMARY KEY (id_koki),
+);
+
+CREATE TABLE Admin(
+    id_admin varchar(10) NOT NULL,
+    nama_admin varchar(20),
+    alamat_admin varchar(30),
+    gaji_admin int,
+    password_admin varchar(20),
+    PRIMARY KEY (id_admin),
+);
+
+CREATE TABLE Sales(
+    id_sales varchar(10) NOT NULL,
+    nama_sales varchar(20),
+    alamat_sales varchar(30),
+    gaji_sales int,
+    password_sales varchar(20),
+    PRIMARY KEY (id_sales),
+);
