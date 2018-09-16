@@ -1,0 +1,34 @@
+Program ERD;
+    type //masukin tipe datanya
+	hasilproduksi = record
+		nama, id : string;
+		harga,stok: integer;
+	end;
+	arrayhasilproduksi=array [1..20] of hasilproduksi;
+	
+procedure egar();
+begin
+
+end;
+
+procedure rq();
+begin
+
+end;
+
+procedure ariq();
+begin
+
+end;
+
+procedure insertHasilProduksi(a:hasilproduksi;b:arrayhasilproduksi);
+begin
+    a.nama:='bolu';
+    a.id:='123b1';
+    a.harga:=2000;
+    a.stok:=12;
+    b[1]:=a;
+end;
+
+begin
+end.
