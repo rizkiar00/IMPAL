@@ -11,7 +11,7 @@ package model;
  */
 public class Msales {
     
-    String id_sales;
+    private String id_sales;
     String nama_sales;
     int gaji_sales;
     String alamat_sales;

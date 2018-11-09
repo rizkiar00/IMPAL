@@ -11,7 +11,7 @@ package model;
  */
 public class Madmin {
     
-    String id_admin;
+    private String id_admin;
     String nama_admin;
     int gaji_admin;
     String alamat_admin;

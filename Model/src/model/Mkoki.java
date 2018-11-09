@@ -11,7 +11,7 @@ package model;
  */
 public class Mkoki {
     
-    String id_koki;
+    private String id_koki;
     String nama_koki;
     int gaji_koki;
     String alamat_koki;
