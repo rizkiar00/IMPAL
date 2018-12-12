@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2018 at 12:28 PM
+-- Generation Time: Dec 12, 2018 at 11:20 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `raniah food application`
+-- Database: `tubesraniah`
 --
 
 -- --------------------------------------------------------
@@ -29,12 +29,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bahan` (
-  `id_bahan` varchar(10) NOT NULL,
-  `id_produk` varchar(10) NOT NULL,
   `nama_bahan` varchar(20) NOT NULL,
   `stok_bahan` int(5) NOT NULL,
-  `harga_bahan` int(10) NOT NULL
+  `keterangan` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bahan`
+--
+
+INSERT INTO `bahan` (`nama_bahan`, `stok_bahan`, `keterangan`) VALUES
+('s', 12, 'a');
 
 -- --------------------------------------------------------
 
@@ -45,10 +50,19 @@ CREATE TABLE `bahan` (
 CREATE TABLE `karyawan` (
   `id_karyawan` varchar(10) NOT NULL,
   `nama_karyawan` varchar(20) NOT NULL,
-  `alamat_karyawan` varchar(50) NOT NULL,
-  `gaji_karyawan` int(10) NOT NULL,
-  `password_karyawan` varchar(20) NOT NULL
+  `password_karyawan` varchar(20) NOT NULL,
+  `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `karyawan`
+--
+
+INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `password_karyawan`, `role`) VALUES
+('a', 'a', 'a', 'koki'),
+('admin', 'namaadmin', 'admin', 'admin'),
+('koki', 'namakoki', 'koki', 'koki'),
+('sales', 'namasales', 'sales', 'sales');
 
 -- --------------------------------------------------------
 
@@ -123,13 +137,16 @@ CREATE TABLE `penjualan` (
 --
 
 CREATE TABLE `produk` (
-  `id_produk` varchar(10) NOT NULL,
-  `id_bahan` varchar(10) NOT NULL,
-  `id_penjualan` varchar(10) NOT NULL,
   `nama_produk` varchar(20) NOT NULL,
-  `stok_produk` int(5) NOT NULL,
-  `harga_produk` int(10) NOT NULL
+  `stok_produk` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`nama_produk`, `stok_produk`) VALUES
+('b', 1);
 
 --
 -- Indexes for dumped tables
@@ -139,7 +156,13 @@ CREATE TABLE `produk` (
 -- Indexes for table `bahan`
 --
 ALTER TABLE `bahan`
-  ADD PRIMARY KEY (`id_bahan`);
+  ADD PRIMARY KEY (`nama_bahan`);
+
+--
+-- Indexes for table `karyawan`
+--
+ALTER TABLE `karyawan`
+  ADD PRIMARY KEY (`id_karyawan`);
 
 --
 -- Indexes for table `laporan_keuangan`
@@ -157,7 +180,7 @@ ALTER TABLE `laporan_penjualan`
 -- Indexes for table `produk`
 --
 ALTER TABLE `produk`
-  ADD PRIMARY KEY (`id_produk`);
+  ADD PRIMARY KEY (`nama_produk`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

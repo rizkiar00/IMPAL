@@ -3,22 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package raniahfood.model;
 
 /**
  *
  * @author dev
  */
 public class Bahan {
-    private String id_bahan;
     String nama_bahan;
     int stok_bahan;
-    int harga_bahan;
+    String keterangan;
     
-    public Bahan(String id, String nama, int stok, int harga) {
-        this.id_bahan = id;
+    public Bahan(String nama, int stok, String keterangan) {
         this.nama_bahan = nama;
         this.stok_bahan = stok;
-        this.harga_bahan = harga;
+        this.keterangan = keterangan;
+    }
+
+    public String getNama_bahan() {
+        return nama_bahan;
+    }
+
+    public void setNama_bahan(String nama_bahan) {
+        this.nama_bahan = nama_bahan;
+    }
+
+    public int getStok_bahan() {
+        return stok_bahan;
+    }
+
+    public void setStok_bahan(int stok_bahan) {
+        this.stok_bahan = stok_bahan;
+    }
+
+    public String getKeterangan() {
+        return keterangan;
+    }
+
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
     }
 }

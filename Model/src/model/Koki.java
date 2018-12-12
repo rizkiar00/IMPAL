@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package raniahfood.model;
+package model;
 
 /**
  *
@@ -15,24 +15,10 @@ public class Produk {
     int stok_produk;
     int harga_produk;
     
-    public Produk(String nama, int stok) {
+    public Produk(String id, String nama, int stok, int harga) {
+        this.id_produk = id;
         this.nama_produk = nama;
         this.stok_produk = stok;
+        this.harga_produk = harga;
     }    
-
-    public String getNama_produk() {
-        return nama_produk;
-    }
-
-    public void setNama_produk(String nama_produk) {
-        this.nama_produk = nama_produk;
-    }
-
-    public int getStok_produk() {
-        return stok_produk;
-    }
-
-    public void setStok_produk(int stok_produk) {
-        this.stok_produk = stok_produk;
-    }
 }
