@@ -341,7 +341,7 @@ public class Database {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
                 penjualan = new Penjualan(rs.getString("id"),rs.getString("tgl_penjualan"),rs.getString("nama_pelanggan"),
-                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("alamat_pelanggan"));
+                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("status"));
             }
             return penjualan;
         } catch (Exception e) {
@@ -361,7 +361,7 @@ public class Database {
                     "'"+status+"')";
             statement.execute(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet rs=statement.getGeneratedKeys();
-            JOptionPane.showMessageDialog(null, "Data Penjualan Telah Ditambah");
+            JOptionPane.showMessageDialog(null, "Data Telah Ditambah");
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Pastikan Tanggal sudah terisi dengan benar");
             System.out.println("Semua data harus terisi"+ex.toString());

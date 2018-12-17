@@ -128,6 +128,15 @@ public class raniahfood {
         }else{
             return penjualan;
         }
+    }    
+    public List<Penjualan> listTransaksi(){
+        List<Penjualan> penjualan =new ArrayList<>();
+        penjualan = db.listTransaksi();
+        if(penjualan.isEmpty()){
+            return null;
+        }else{
+            return penjualan;
+        }
     }
     
     public void deletePenjualan(String id,String Status) {
