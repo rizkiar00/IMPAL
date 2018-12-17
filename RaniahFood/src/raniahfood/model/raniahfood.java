@@ -109,5 +109,32 @@ public class raniahfood {
     
     public void updateKaryawan(String username, String nama,String password,String role){
         db.updateKaryawan(username,nama,password,role);
+    }    
+    
+    public Penjualan cekPenjualan(String id,String Status) {
+        Penjualan penjualan = db.getPenjualan(id,Status);
+        return penjualan;
+    }
+    
+    public void addPenjualan(String id, String tgl, String nama, String alamat, int uang,String status){
+        db.insertPenjualan(id,tgl,nama,alamat,uang,status);
+    }
+    
+    public List<Penjualan> listPenjualan(){
+        List<Penjualan> penjualan =new ArrayList<>();
+        penjualan = db.listPenjualan();
+        if(penjualan.isEmpty()){
+            return null;
+        }else{
+            return penjualan;
+        }
+    }
+    
+    public void deletePenjualan(String id,String Status) {
+        db.deletePenjualan(id,Status);
+    }
+    
+    public void updatePenjualan(String id, String tgl, String nama, String alamat, int uang,String status){
+        db.updatePenjualan(id,tgl,nama,alamat,uang,status);
     }
 }

@@ -38,6 +38,7 @@ public class Controller implements ActionListener{
     private VLogin viewlogin;
     private VKoki viewkoki;
     private VAdmin viewadmin;
+    private VSales viewsales;
     
     public Controller(raniahfood model,Database db) throws SQLException {
         this.model = model; 
@@ -50,9 +51,11 @@ public class Controller implements ActionListener{
         viewlogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         viewkoki = new VKoki();
         viewadmin = new VAdmin();
+        viewsales = new VSales();
         viewlogin.addActionListener(this);
         viewkoki.addActionListener(this);
         viewadmin.addActionListener(this);
+        viewsales.addActionListener(this);
 //        mainPanel = view.getMainPanel();
 //        mainPanel.add(viewlogin,"0");
 //        mainPanel.add(viewkoki,"1");
@@ -82,6 +85,11 @@ public class Controller implements ActionListener{
                     if (role.equals("admin")) {
                         viewadmin.setVisible(true);
                         viewadmin.setLocationRelativeTo(null);
+                        viewlogin.setVisible(false);
+                    }
+                    if (role.equals("sales")) {
+                        viewsales.setVisible(true);
+                        viewsales.setLocationRelativeTo(null);
                         viewlogin.setVisible(false);
                     }
 //                    viewkoki = new VKoki();
@@ -321,7 +329,7 @@ public class Controller implements ActionListener{
                 }
             }
         }
-        if (a == viewadmin.getjButton3()){ //updateproduk
+        if (a == viewadmin.getjButton3()){ //updatekaryawan
             if (viewadmin.getjTextField3().isEmpty() || viewadmin.getjTextField4().isEmpty() || viewadmin.getjPasswordField2().isEmpty()){
                 JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
             } else {
@@ -341,7 +349,7 @@ public class Controller implements ActionListener{
                 }
             }
         }
-        if (a == viewadmin.getjButton4()){ //cekupdateproduk
+        if (a == viewadmin.getjButton4()){ //cekupdatekaryawan
             if (viewadmin.getjTextField3().isEmpty()){
                 JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
             } else {
@@ -355,6 +363,240 @@ public class Controller implements ActionListener{
                         viewadmin.setjTextField4(karyawan.getNama());
                         viewadmin.setjPasswordField2(karyawan.getPassword());
                         viewadmin.setjComboBox2(karyawan.getRole());
+                    }
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, ee,"Update Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }
+        //sini kebawah penjualan
+        if (a == viewsales.getjButton1()){ //logout
+            try {
+                viewlogin.setVisible(true);
+                viewlogin.setLocationRelativeTo(null);
+                viewsales.setVisible(false);
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewadmin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        if (a == viewsales.getjButton2()){ //insertPenjualan
+            if (viewsales.getjTextField1().isEmpty() || viewsales.getjTextField3().isEmpty() || viewsales.getjTextField4().isEmpty() ||
+                    viewsales.getjTextField5().isEmpty() || viewsales.getjTextField6().isEmpty() || viewsales.getjTextArea1().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Input Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                // checking valid integer using parseInt() method 
+                    String nama = viewsales.getjTextField1();
+                    String alamat = viewsales.getjTextArea1();
+                    String tgl = viewsales.getjTextField3();
+                    String bln = viewsales.getjTextField4();
+                    String thn = viewsales.getjTextField5();
+                    String uang = viewsales.getjTextField6();
+                    int t = Integer.parseInt(tgl);
+                    int b = Integer.parseInt(bln);
+                    int th = Integer.parseInt(thn);
+                    int angka = Integer.parseInt(uang);
+                    String tanggal = th + "-" + b + "-" + t;
+                    model.addPenjualan("DEFAULT",tanggal,nama, alamat,angka,"0");
+                } catch (NumberFormatException ne) { 
+                    JOptionPane.showConfirmDialog(null, "Pastikan Tanggal,Bulan,Tahun dan Uang dalam bentuk angka","Input Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        } 
+        if (a == viewsales.getjButton5()){ //cektabelpenjualan
+            try{
+                List<Penjualan> penjualan=new ArrayList<>();
+                penjualan = model.listPenjualan();
+                if(penjualan==null) {
+                    viewsales.setjTable1(penjualan);
+                    JOptionPane.showConfirmDialog(null, "Data Produk Penjualan","Refresh",JOptionPane.DEFAULT_OPTION);
+                } else {
+                    viewsales.setjTable1(penjualan);
+                    JOptionPane.showConfirmDialog(null, "Data Sudah Di Update","Refresh",JOptionPane.DEFAULT_OPTION);
+                }
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewlogin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        if (a == viewsales.getjButton4()){ //deletepenjualan
+            if (viewsales.getjTextField13().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Delete Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                    String id = viewsales.getjTextField13();
+                    model.deletePenjualan(id,"0");
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, ee,"Input Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }
+        if (a == viewsales.getjButton3()){ //updatepenjualan
+            if (viewsales.getjTextField2().isEmpty() || viewsales.getjTextField7().isEmpty() || viewsales.getjTextArea2().isEmpty()|| 
+                    viewsales.getjTextField9().isEmpty() || viewsales.getjTextField10().isEmpty() || viewsales.getjTextField11().isEmpty() || viewsales.getjTextField12().isEmpty() ){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try {
+                    String id = viewsales.getjTextField2(); 
+                    String nama = viewsales.getjTextField7();
+                    String alamat = viewsales.getjTextArea2();
+                    String tgl = viewsales.getjTextField9();
+                    String bln = viewsales.getjTextField10();
+                    String thn = viewsales.getjTextField11();
+                    String uang = viewsales.getjTextField12();
+                    int t = Integer.parseInt(tgl);
+                    int b = Integer.parseInt(bln);
+                    int th = Integer.parseInt(thn);
+                    int angka = Integer.parseInt(uang);
+                    String tanggal = th + "-" + b + "-" + t;
+                    Penjualan penjualan = model.cekPenjualan(id,"0");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Penjualan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.updatePenjualan(id,tanggal,nama, alamat,angka,"0");
+                    }
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, e,"Update Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }
+        if (a == viewsales.getjButton6()){ //cekupdatepenjualan
+            if (viewsales.getjTextField2().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                    String id = viewsales.getjTextField2();
+                    Penjualan penjualan = model.cekPenjualan(id,"0");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Karyawan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        viewsales.setjTextField7(penjualan.getNama_pelanggan());
+                        viewsales.setjTextArea2(penjualan.getAlamat_pelanggan());
+                        viewsales.setjTextField11(penjualan.getTgl_penjualan().substring(0, 4));
+                        viewsales.setjTextField10(penjualan.getTgl_penjualan().substring(5, 7));
+                        viewsales.setjTextField9(penjualan.getTgl_penjualan().substring(8));
+                        viewsales.setjTextField12(String.valueOf(penjualan.getUang()));
+                    }
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, ee,"Update Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }        
+        if (a == viewsales.getjButton7()){ //cektabelproduk
+            try{
+                List<Produk> produk=new ArrayList<>();
+                produk = model.listProduk();
+                if(produk==null) {
+                    viewsales.setDataProduk(produk);
+                    JOptionPane.showConfirmDialog(null, "Data Produk Kosong","Refresh",JOptionPane.DEFAULT_OPTION);
+                } else {
+                    viewsales.setDataProduk(produk);
+                    JOptionPane.showConfirmDialog(null, "Data Sudah Di Update","Refresh",JOptionPane.DEFAULT_OPTION);
+                }
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewlogin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        //sini kebawah transaksi
+        if (a == viewsales.getjButton2()){ //insertTransaksi
+            if (viewsales.getjTextField1().isEmpty() || viewsales.getjTextField3().isEmpty() || viewsales.getjTextField4().isEmpty() ||
+                    viewsales.getjTextField5().isEmpty() || viewsales.getjTextField6().isEmpty() || viewsales.getjTextArea1().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Input Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                // checking valid integer using parseInt() method 
+                    String nama = viewsales.getjTextField1();
+                    String alamat = viewsales.getjTextArea1();
+                    String tgl = viewsales.getjTextField3();
+                    String bln = viewsales.getjTextField4();
+                    String thn = viewsales.getjTextField5();
+                    String uang = viewsales.getjTextField6();
+                    int t = Integer.parseInt(tgl);
+                    int b = Integer.parseInt(bln);
+                    int th = Integer.parseInt(thn);
+                    int angka = Integer.parseInt(uang);
+                    String tanggal = th + "-" + b + "-" + t;
+                    model.addPenjualan("DEFAULT",tanggal,nama, alamat,angka,"0");
+                } catch (NumberFormatException ne) { 
+                    JOptionPane.showConfirmDialog(null, "Pastikan Tanggal,Bulan,Tahun dan Uang dalam bentuk angka","Input Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        } 
+        if (a == viewsales.getjButton5()){ //cektabeltransaksi
+            try{
+                List<Penjualan> penjualan=new ArrayList<>();
+                penjualan = model.listPenjualan();
+                if(penjualan==null) {
+                    viewsales.setjTable1(penjualan);
+                    JOptionPane.showConfirmDialog(null, "Data Produk Penjualan","Refresh",JOptionPane.DEFAULT_OPTION);
+                } else {
+                    viewsales.setjTable1(penjualan);
+                    JOptionPane.showConfirmDialog(null, "Data Sudah Di Update","Refresh",JOptionPane.DEFAULT_OPTION);
+                }
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewlogin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        if (a == viewsales.getjButton4()){ //deletetransaksi
+            if (viewsales.getjTextField13().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Delete Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                    String id = viewsales.getjTextField13();
+                    model.deletePenjualan(id,"0");
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, ee,"Input Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }
+        if (a == viewsales.getjButton3()){ //updatetransaksi
+            if (viewsales.getjTextField2().isEmpty() || viewsales.getjTextField7().isEmpty() || viewsales.getjTextArea2().isEmpty()|| 
+                    viewsales.getjTextField9().isEmpty() || viewsales.getjTextField10().isEmpty() || viewsales.getjTextField11().isEmpty() || viewsales.getjTextField12().isEmpty() ){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try {
+                    String id = viewsales.getjTextField2(); 
+                    String nama = viewsales.getjTextField7();
+                    String alamat = viewsales.getjTextArea2();
+                    String tgl = viewsales.getjTextField9();
+                    String bln = viewsales.getjTextField10();
+                    String thn = viewsales.getjTextField11();
+                    String uang = viewsales.getjTextField12();
+                    int t = Integer.parseInt(tgl);
+                    int b = Integer.parseInt(bln);
+                    int th = Integer.parseInt(thn);
+                    int angka = Integer.parseInt(uang);
+                    String tanggal = th + "-" + b + "-" + t;
+                    Penjualan penjualan = model.cekPenjualan(id,"0");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Penjualan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.updatePenjualan(id,tanggal,nama, alamat,angka,"0");
+                    }
+                } catch (Exception ee) { 
+                    JOptionPane.showConfirmDialog(null, e,"Update Error",JOptionPane.DEFAULT_OPTION);
+                }
+            }
+        }
+        if (a == viewsales.getjButton6()){ //cekupdatetransaksi
+            if (viewsales.getjTextField2().isEmpty()){
+                JOptionPane.showConfirmDialog(null, "Pastikan Form Sudah di isi semua","Update Error",JOptionPane.DEFAULT_OPTION);
+            } else {
+                try { 
+                    String id = viewsales.getjTextField2();
+                    Penjualan penjualan = model.cekPenjualan(id,"0");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Karyawan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        viewsales.setjTextField7(penjualan.getNama_pelanggan());
+                        viewsales.setjTextArea2(penjualan.getAlamat_pelanggan());
+                        viewsales.setjTextField11(penjualan.getTgl_penjualan().substring(0, 4));
+                        viewsales.setjTextField10(penjualan.getTgl_penjualan().substring(5, 7));
+                        viewsales.setjTextField9(penjualan.getTgl_penjualan().substring(8));
+                        viewsales.setjTextField12(String.valueOf(penjualan.getUang()));
                     }
                 } catch (Exception ee) { 
                     JOptionPane.showConfirmDialog(null, ee,"Update Error",JOptionPane.DEFAULT_OPTION);

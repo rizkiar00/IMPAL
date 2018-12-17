@@ -582,7 +582,7 @@ public class VKoki extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Nama", "Stock"
+                "Nama", "Stok"
             }
         ));
         jScrollPane2.setViewportView(jTable2);

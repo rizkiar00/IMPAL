@@ -299,5 +299,102 @@ public class Database {
             System.out.println("Semua data harus terisi"+ex.toString());
         }
     }
+    //sini kebawah transaksi
+   public List<Penjualan> listPenjualan(){
+         List<Penjualan> penjualan=new ArrayList<>();
+         try{
+             String query="SELECT * FROM `Penjualan` where status = '0'";
+             ResultSet rs=statement.executeQuery(query);
+              while(rs.next()){
+                 Penjualan p = new Penjualan(rs.getString("id"),rs.getString("tgl_penjualan"),rs.getString("nama_pelanggan"),
+                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("status")); 
+                 penjualan.add(p);  
+             }
+             return penjualan;
+         }catch(SQLException ex){
+             System.out.println(ex);
+             return null;
+         }
+     }
+      public List<Penjualan> listTransaksi(){
+         List<Penjualan> penjualan=new ArrayList<>();
+         try{
+             String query="SELECT * FROM `Penjualan` where status = '1'";
+             ResultSet rs=statement.executeQuery(query);
+              while(rs.next()){
+                 Penjualan p = new Penjualan(rs.getString("id"),rs.getString("tgl_penjualan"),rs.getString("nama_pelanggan"),
+                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("status")); 
+                 penjualan.add(p);  
+             }
+             return penjualan;
+         }catch(SQLException ex){
+             System.out.println(ex);
+             return null;
+         }
+     }
+   
+   
+    public Penjualan getPenjualan(String id,String Status){
+         Penjualan penjualan = null;
+         try {
+            String query = "SELECT * FROM `Penjualan` where id='" + id + "' AND status='" + Status + "'";
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                penjualan = new Penjualan(rs.getString("id"),rs.getString("tgl_penjualan"),rs.getString("nama_pelanggan"),
+                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("alamat_pelanggan"));
+            }
+            return penjualan;
+        } catch (Exception e) {
+           JOptionPane.showConfirmDialog(null, e);
+        }
+        return penjualan;
+     }  
+    
+    public void insertPenjualan(String id, String tgl, String nama, String alamat, int uang,String status){
+        try{
+            String query="INSERT INTO Penjualan(id,tgl_penjualan,nama_pelanggan,alamat_pelanggan,uang,status) VALUES("+
+                    ""+id+","+
+                    "'"+tgl+"',"+
+                    "'"+nama+"',"+
+                    "'"+alamat+"',"+
+                    "'"+uang+"',"+
+                    "'"+status+"')";
+            statement.execute(query,Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs=statement.getGeneratedKeys();
+            JOptionPane.showMessageDialog(null, "Data Penjualan Telah Ditambah");
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Pastikan Tanggal sudah terisi dengan benar");
+            System.out.println("Semua data harus terisi"+ex.toString());
+        }
+    }
+    
+    public void deletePenjualan(String id,String Status){
+        try {
+            String query1 = "Delete from penjualan where id='" + id + "' AND status='" + Status + "'";
+            statement.execute(query1);
+            JOptionPane.showConfirmDialog(null, "Data Berhasil Dihapus", "Delete", JOptionPane.DEFAULT_OPTION);
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Data Tidak Ada", "Delete Error", JOptionPane.DEFAULT_OPTION);
+        }
+    }    
+    
+    public void updatePenjualan(String id, String tgl, String nama, String alamat, int uang, String status){
+        try{
+            String query="UPDATE penjualan SET id= "+
+                    "'"+id+"', tgl_penjualan= "+
+                    "'"+tgl+"', nama_pelanggan= "+
+                    "'"+nama+"', alamat_pelanggan= "+
+                    "'"+alamat+"', uang= "+
+                    "'"+uang+"', status= "+
+                    "'"+status+"' WHERE id = "+
+                    "'"+id+"'";
+            statement.execute(query,Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs=statement.getGeneratedKeys();
+            JOptionPane.showMessageDialog(null, "Data Penjualan Berhasil Di Update");
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Pastikan Tanggal sudah terisi dengan benar");
+            System.out.println("Semua data harus terisi"+ex.toString());
+        }
+    }
 }
 
