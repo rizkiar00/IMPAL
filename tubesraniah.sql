@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2018 at 11:20 AM
+-- Generation Time: Dec 19, 2018 at 04:05 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -31,15 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `bahan` (
   `nama_bahan` varchar(20) NOT NULL,
   `stok_bahan` int(5) NOT NULL,
-  `keterangan` varchar(20) NOT NULL
+  `keterangan` varchar(20) NOT NULL,
+  `stokmin` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bahan`
 --
 
-INSERT INTO `bahan` (`nama_bahan`, `stok_bahan`, `keterangan`) VALUES
-('s', 12, 'a');
+INSERT INTO `bahan` (`nama_bahan`, `stok_bahan`, `keterangan`, `stokmin`) VALUES
+('ad', 1, 'aq', 3),
+('s', 12, 'a', 3);
 
 -- --------------------------------------------------------
 
@@ -67,68 +69,37 @@ INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `password_karyawan`, `ro
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keuangan`
---
-
-CREATE TABLE `keuangan` (
-  `id_laporan` varchar(10) NOT NULL,
-  `id_keuangan` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `laporan_keuangan`
---
-
-CREATE TABLE `laporan_keuangan` (
-  `id_keuangan` varchar(10) NOT NULL,
-  `id_laporan` varchar(10) NOT NULL,
-  `total_pemasukan` int(20) NOT NULL,
-  `bulan_laporan` varchar(10) NOT NULL,
-  `total_pengeluaran` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `laporan_penjualan`
---
-
-CREATE TABLE `laporan_penjualan` (
-  `id_laporan` varchar(10) NOT NULL,
-  `id_keuangan` varchar(10) NOT NULL,
-  `total_pendapatan` int(20) NOT NULL,
-  `tgl_laporan` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `membutuhkan`
---
-
-CREATE TABLE `membutuhkan` (
-  `id_bahan` varchar(10) NOT NULL,
-  `id_produk` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `penjualan`
 --
 
 CREATE TABLE `penjualan` (
-  `id_penjualan` varchar(10) NOT NULL,
-  `id_produk` varchar(10) NOT NULL,
-  `id_laporan` varchar(10) NOT NULL,
+  `id` int(11) NOT NULL,
   `tgl_penjualan` date NOT NULL,
-  `jumlah_penjualan` int(10) NOT NULL,
   `nama_pelanggan` varchar(20) NOT NULL,
   `alamat_pelanggan` varchar(50) NOT NULL,
-  `hp_pelanggan` varchar(20) NOT NULL
+  `uang` int(11) NOT NULL,
+  `status` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id`, `tgl_penjualan`, `nama_pelanggan`, `alamat_pelanggan`, `uang`, `status`) VALUES
+(5, '2018-12-03', 'Beli Bahan', 'gula,garam,susu coklat', 50000, '1'),
+(6, '2018-01-15', 'pasar', 'pasar', 45000, '0'),
+(7, '2018-02-15', 'pasar', 'pasar', 56000, '0'),
+(8, '2018-03-15', 'pasar', 'pasar', 34000, '0'),
+(9, '2018-04-15', 'pasar', 'pasar', 36000, '0'),
+(11, '2018-05-15', 'pasar', 'pasar', 51000, '0'),
+(12, '2018-06-15', 'pasar', 'pasar', 38000, '0'),
+(13, '2018-07-15', 'pasar', 'pasar', 44000, '0'),
+(14, '2018-08-15', 'pasar', 'pasar', 32000, '0'),
+(15, '2018-09-15', 'pasar', 'pasar', 47000, '0'),
+(16, '2018-10-15', 'pasar', 'pasar', 35000, '0'),
+(17, '2018-11-15', 'pasar', 'pasar', 61000, '0'),
+(18, '2018-12-15', 'pasar', 'pasar', 70000, '0'),
+(19, '2019-01-16', 'pasar', 'pasar', 50000, '0');
 
 -- --------------------------------------------------------
 
@@ -165,22 +136,26 @@ ALTER TABLE `karyawan`
   ADD PRIMARY KEY (`id_karyawan`);
 
 --
--- Indexes for table `laporan_keuangan`
+-- Indexes for table `penjualan`
 --
-ALTER TABLE `laporan_keuangan`
-  ADD PRIMARY KEY (`id_keuangan`);
-
---
--- Indexes for table `laporan_penjualan`
---
-ALTER TABLE `laporan_penjualan`
-  ADD PRIMARY KEY (`id_laporan`);
+ALTER TABLE `penjualan`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `produk`
 --
 ALTER TABLE `produk`
   ADD PRIMARY KEY (`nama_produk`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `penjualan`
+--
+ALTER TABLE `penjualan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
