@@ -78,7 +78,7 @@ public class Database {
              String query="SELECT * FROM `BAHAN`";
              ResultSet rs=statement.executeQuery(query);
               while(rs.next()){
-                 Bahan b = new Bahan(rs.getString("nama_bahan"),rs.getInt("stok_bahan"),rs.getString("keterangan")); 
+                 Bahan b = new Bahan(rs.getString("nama_bahan"),rs.getInt("stok_bahan"),rs.getString("keterangan"),rs.getInt("stokmin")); 
                  bahan.add(b);  
              }
              return bahan;
@@ -94,7 +94,7 @@ public class Database {
             String query = "SELECT * FROM `bahan` WHERE nama_bahan = '"+ nama+  "'";
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
-                bahan = new Bahan(rs.getString("nama_bahan"),Integer.parseInt(rs.getString("stok_bahan")),rs.getString("keterangan"));
+                bahan = new Bahan(rs.getString("nama_bahan"),Integer.parseInt(rs.getString("stok_bahan")),rs.getString("keterangan"),rs.getInt("stokmin"));
             }
             return bahan;
         } catch (Exception e) {
@@ -103,12 +103,13 @@ public class Database {
         return bahan;
      }  
     
-    public void insertBahan(String nama, int stock, String keterangan){
+    public void insertBahan(String nama, int stock, String keterangan,int stokmin){
         try{
-            String query="INSERT INTO BAHAN(nama_bahan,stok_bahan,keterangan) VALUES("+
+            String query="INSERT INTO BAHAN(nama_bahan,stok_bahan,keterangan,stokmin) VALUES("+
                     "'"+nama+"',"+
                     "'"+stock+"',"+
-                    "'"+keterangan+"')";
+                    "'"+keterangan+"',"+
+                    "'"+stokmin+"')";
             statement.execute(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet rs=statement.getGeneratedKeys();
             JOptionPane.showMessageDialog(null, "Data Bahan Telah Ditambah");
@@ -127,12 +128,13 @@ public class Database {
             JOptionPane.showConfirmDialog(null, "Data Tidak Ada", "Delete Error", JOptionPane.DEFAULT_OPTION);
         }
     }    
-    public void updateBahan(String nama, int stock, String keterangan){
+    public void updateBahan(String nama, int stock, String keterangan, int stokmin){
         try{
             String query="UPDATE bahan SET nama_bahan= "+
                     "'"+nama+"', stok_bahan= "+
                     "'"+stock+"', keterangan= "+
-                    "'"+keterangan+"' WHERE nama_bahan = "+
+                    "'"+keterangan+"', stokmin= "+
+                    "'"+stokmin+"' WHERE nama_bahan = "+
                     "'"+nama+"'";
             statement.execute(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet rs=statement.getGeneratedKeys();
@@ -331,8 +333,23 @@ public class Database {
              System.out.println(ex);
              return null;
          }
+     }      
+      public List<Penjualan> listKeuangan(){
+         List<Penjualan> penjualan=new ArrayList<>();
+         try{
+             String query="SELECT * FROM `Penjualan` ";
+             ResultSet rs=statement.executeQuery(query);
+              while(rs.next()){
+                 Penjualan p = new Penjualan(rs.getString("id"),rs.getString("tgl_penjualan"),rs.getString("nama_pelanggan"),
+                        rs.getString("alamat_pelanggan"),Integer.parseInt(rs.getString("uang")),rs.getString("status")); 
+                 penjualan.add(p);  
+             }
+             return penjualan;
+         }catch(SQLException ex){
+             System.out.println(ex);
+             return null;
+         }
      }
-   
    
     public Penjualan getPenjualan(String id,String Status){
          Penjualan penjualan = null;

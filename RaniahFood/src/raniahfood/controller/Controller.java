@@ -16,13 +16,19 @@ import raniahfood.view.VKoki;
 
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException; 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane; 
 import javax.swing.JPanel; 
 import javax.swing.JPasswordField;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
+import org.jfree.ui.RefineryUtilities;
 
 
 
@@ -48,7 +54,6 @@ public class Controller implements ActionListener{
         viewlogin.setVisible(true);
         viewlogin.pack();
         viewlogin.setLocationRelativeTo(null);
-        viewlogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         viewkoki = new VKoki();
         viewadmin = new VAdmin();
         viewsales = new VSales();
@@ -111,8 +116,10 @@ public class Controller implements ActionListener{
                     String nama = viewkoki.getjTextField1();
                     String stock = viewkoki.getjTextField2();
                     String keterangan = viewkoki.getjTextField7();
+                    String stokmin = viewkoki.getjTextField11();
                     int angka = Integer.parseInt(stock);
-                    model.addBahan(nama, angka, keterangan);
+                    int min = Integer.parseInt(stokmin);
+                    model.addBahan(nama, angka, keterangan,min);
                 } catch (NumberFormatException ne) { 
                     JOptionPane.showConfirmDialog(null, "Pastikan Stock dalam bentuk angka","Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -140,7 +147,12 @@ public class Controller implements ActionListener{
             } else {
                 try { 
                     String nama = viewkoki.getjTextField3();
-                    model.deleteBahan(nama);
+                    Bahan bahan = model.cekBahan(nama);
+                    if (bahan == null){
+                        JOptionPane.showConfirmDialog(null, "Bahan Tidak Ditemukan","Delete Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.deleteBahan(nama);
+                    }
                 } catch (NumberFormatException ne) { 
                     JOptionPane.showConfirmDialog(null, "Pastikan Stock dalam bentuk angka","Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -164,11 +176,12 @@ public class Controller implements ActionListener{
                     String nama = viewkoki.getjTextField5();
                     String stok = viewkoki.getjTextField6();
                     String keterangan = viewkoki.getjTextField8();
+                    String stokmin = viewkoki.getjTextField14();
                     Bahan bahan = model.cekBahan(nama);
                     if (bahan == null){
                         JOptionPane.showConfirmDialog(null, "Bahan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
                     } else {
-                        model.updateBahan(nama, Integer.parseInt(stok),keterangan);
+                        model.updateBahan(nama, Integer.parseInt(stok),keterangan,Integer.parseInt(stokmin));
                     }
                 } catch (NumberFormatException ne) { 
                     JOptionPane.showConfirmDialog(null, "Pastikan Stock dalam bentuk angka","Update Error",JOptionPane.DEFAULT_OPTION);
@@ -188,6 +201,7 @@ public class Controller implements ActionListener{
                         viewkoki.setjTextField5(bahan.getNama_bahan());
                         viewkoki.setjTextField6(Integer.toString(bahan.getStok_bahan()));
                         viewkoki.setjTextField8(bahan.getKeterangan());
+                        viewkoki.setjTextField14(Integer.toString(bahan.getStokmin()));
                     }
                 } catch (NumberFormatException ne) { 
                     JOptionPane.showConfirmDialog(null, "Pastikan Stock dalam bentuk angka","Update Error",JOptionPane.DEFAULT_OPTION);
@@ -232,7 +246,12 @@ public class Controller implements ActionListener{
             } else {
                 try { 
                     String nama = viewkoki.getjTextField4();
-                    model.deleteProduk(nama);
+                    Produk produk = model.cekProduk(nama);
+                    if (produk == null){
+                        JOptionPane.showConfirmDialog(null, "Produk Tidak Ditemukan","Delete Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.deleteProduk(nama);
+                    }
                 } catch (NumberFormatException ne) { 
                     JOptionPane.showConfirmDialog(null, "Pastikan Stock dalam bentuk angka","Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -323,7 +342,12 @@ public class Controller implements ActionListener{
             } else {
                 try { 
                     String username = viewadmin.getjTextField5();
-                    model.deleteKaryawan(username);
+                    MKaryawan karyawan = model.cekKaryawan(username);
+                    if (karyawan == null){
+                        JOptionPane.showConfirmDialog(null, "Karyawan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.deleteKaryawan(username);
+                    }
                 } catch (Exception ee) { 
                     JOptionPane.showConfirmDialog(null, ee,"Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -426,7 +450,12 @@ public class Controller implements ActionListener{
             } else {
                 try { 
                     String id = viewsales.getjTextField13();
-                    model.deletePenjualan(id,"0");
+                    Penjualan penjualan = model.cekPenjualan(id,"0");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Karyawan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.deletePenjualan(id,"0");
+                    }
                 } catch (Exception ee) { 
                     JOptionPane.showConfirmDialog(null, ee,"Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -530,7 +559,7 @@ public class Controller implements ActionListener{
                 penjualan = model.listTransaksi();
                 if(penjualan==null) {
                     viewadmin.setDataTransaksi(penjualan);
-                    JOptionPane.showConfirmDialog(null, "Data Produk Penjualan","Refresh",JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showConfirmDialog(null, "Data Transaksi Kosong","Refresh",JOptionPane.DEFAULT_OPTION);
                 } else {
                     viewadmin.setDataTransaksi(penjualan);
                     JOptionPane.showConfirmDialog(null, "Data Sudah Di Update","Refresh",JOptionPane.DEFAULT_OPTION);
@@ -547,6 +576,12 @@ public class Controller implements ActionListener{
                 try { 
                     String id = viewadmin.getjTextField10();
                     model.deletePenjualan(id,"1");
+                    Penjualan penjualan = model.cekPenjualan(id,"1");
+                    if (penjualan == null){
+                        JOptionPane.showConfirmDialog(null, "Karyawan Tidak Ditemukan","Update Error",JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        model.deletePenjualan(id,"1");
+                    }
                 } catch (Exception ee) { 
                     JOptionPane.showConfirmDialog(null, ee,"Input Error",JOptionPane.DEFAULT_OPTION);
                 }
@@ -601,6 +636,55 @@ public class Controller implements ActionListener{
                 } catch (Exception ee) { 
                     JOptionPane.showConfirmDialog(null, ee,"Update Error",JOptionPane.DEFAULT_OPTION);
                 }
+            }
+        }        
+        if (a == viewadmin.getjButton8()){ //cektabelbahan
+            try{
+                List<Bahan> bahan = new ArrayList<>();
+                bahan = model.listBahan();
+                Iterator<Bahan> it = bahan.iterator();
+                while (it.hasNext()) {
+                    Bahan b = it.next();
+                    if (b.getStok_bahan()>b.getStokmin()) {
+                        it.remove();
+                    }
+                }
+                if(bahan==null) {
+                    viewadmin.setDataBahan(bahan);
+                    JOptionPane.showConfirmDialog(null, "Data Bahan Yang Kurang Kosong","Refresh",JOptionPane.DEFAULT_OPTION);
+                } else {
+                    viewadmin.setDataBahan(bahan);
+                    JOptionPane.showConfirmDialog(null, "Data Sudah Di Update","Refresh",JOptionPane.DEFAULT_OPTION);
+                }
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewlogin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        if (a == viewadmin.getjButton9()){ //keuangan
+            try{
+                int[] array = new int[12];
+                array = model.listKeuangan();
+                if(array==null) {
+                    JOptionPane.showConfirmDialog(null, "Data Keuangan Kosong","Refresh",JOptionPane.DEFAULT_OPTION);
+                } else {
+                    LineChart_AWT chart = new LineChart_AWT("Grafik Keuangan" ,"Data Keuangan Satu Tahun Ini",array);
+                    RefineryUtilities.centerFrameOnScreen( chart );
+                    chart.setVisible( true );
+                    chart.setExtendedState(LineChart_AWT.MAXIMIZED_BOTH);
+                    WindowAdapter windowAdapter = new WindowAdapter()
+                    {
+                        public void windowClosing(WindowEvent we)
+                        {
+                            chart.setDefaultCloseOperation(HIDE_ON_CLOSE);
+                            viewadmin.setVisible(true);
+                        }
+                    };
+                    chart.addWindowListener(windowAdapter);
+                }
+            } catch (Exception ee) {
+                ee.printStackTrace();//penting
+                JOptionPane.showConfirmDialog(viewlogin, ""+ee.getMessage(), ""+ee.getMessage(), JOptionPane.WARNING_MESSAGE);
             }
         }
     }

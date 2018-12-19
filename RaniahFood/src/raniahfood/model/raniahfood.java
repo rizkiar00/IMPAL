@@ -40,8 +40,8 @@ public class raniahfood {
         Bahan bahan = db.getBahan(nama);
         return bahan;
     }
-    public void addBahan(String nama, int stock, String keterangan){
-        db.insertBahan(nama,stock,keterangan);
+    public void addBahan(String nama, int stock, String keterangan,int stokmin){
+        db.insertBahan(nama,stock,keterangan,stokmin);
     }
     
     public List<Bahan> listBahan(){
@@ -56,8 +56,8 @@ public class raniahfood {
     public void deleteBahan(String nama) {
         db.deleteBahan(nama);
     }
-    public void updateBahan(String nama, int stock, String keterangan){
-        db.updateBahan(nama,stock,keterangan);
+    public void updateBahan(String nama, int stock, String keterangan,int stokmin){
+        db.updateBahan(nama,stock,keterangan,stokmin);
     }
     
     public Produk cekProduk(String nama) {
@@ -145,5 +145,27 @@ public class raniahfood {
     
     public void updatePenjualan(String id, String tgl, String nama, String alamat, int uang,String status){
         db.updatePenjualan(id,tgl,nama,alamat,uang,status);
+    }   
+    public int[] listKeuangan(){
+        List<Penjualan> penjualan =new ArrayList<>();
+        penjualan = db.listPenjualan();
+        List<Penjualan> transaksi =new ArrayList<>();
+        transaksi = db.listTransaksi();
+        if(penjualan.isEmpty()&&transaksi.isEmpty()){
+            return null;
+        }
+        int[] array = new int[12];
+        for (int j = 0; j < penjualan.size(); j++) {
+            Penjualan p = penjualan.get(j);
+            String bulan = p.getTgl_penjualan().substring(5, 7);
+            array[Integer.parseInt(bulan)-1] += p.getUang();
+        };
+        for (int j = 0; j < transaksi.size(); j++) {
+            Penjualan p = transaksi.get(j);
+            String bulan = p.getTgl_penjualan().substring(5, 7);
+            array[Integer.parseInt(bulan)-1] -= p.getUang();
+        };
+        return array;
+        
     }
 }

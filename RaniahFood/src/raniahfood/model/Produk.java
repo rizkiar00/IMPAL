@@ -10,10 +10,8 @@ package raniahfood.model;
  * @author dev
  */
 public class Produk {
-    private String id_produk;
     String nama_produk;
     int stok_produk;
-    int harga_produk;
     
     public Produk(String nama, int stok) {
         this.nama_produk = nama;

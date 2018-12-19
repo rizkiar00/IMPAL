@@ -13,11 +13,21 @@ public class Bahan {
     String nama_bahan;
     int stok_bahan;
     String keterangan;
+    int stokmin;
     
-    public Bahan(String nama, int stok, String keterangan) {
+    public Bahan(String nama, int stok, String keterangan,int stokmin) {
         this.nama_bahan = nama;
         this.stok_bahan = stok;
         this.keterangan = keterangan;
+        this.stokmin = stokmin;
+    }
+
+    public int getStokmin() {
+        return stokmin;
+    }
+
+    public void setStokmin(int stokmin) {
+        this.stokmin = stokmin;
     }
 
     public String getNama_bahan() {
