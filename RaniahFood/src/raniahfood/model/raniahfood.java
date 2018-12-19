@@ -155,15 +155,20 @@ public class raniahfood {
             return null;
         }
         int[] array = new int[12];
+        int year = Calendar.getInstance().get(Calendar.YEAR);
         for (int j = 0; j < penjualan.size(); j++) {
             Penjualan p = penjualan.get(j);
-            String bulan = p.getTgl_penjualan().substring(5, 7);
-            array[Integer.parseInt(bulan)-1] += p.getUang();
+            if(Integer.parseInt(p.getTgl_penjualan().substring(0, 4))==year){
+                String bulan = p.getTgl_penjualan().substring(5, 7);
+                array[Integer.parseInt(bulan)-1] += p.getUang();
+            }
         };
         for (int j = 0; j < transaksi.size(); j++) {
             Penjualan p = transaksi.get(j);
-            String bulan = p.getTgl_penjualan().substring(5, 7);
-            array[Integer.parseInt(bulan)-1] -= p.getUang();
+            if(Integer.parseInt(p.getTgl_penjualan().substring(0, 4))==year){
+                String bulan = p.getTgl_penjualan().substring(5, 7);
+                array[Integer.parseInt(bulan)-1] -= p.getUang();
+            }
         };
         return array;
         
