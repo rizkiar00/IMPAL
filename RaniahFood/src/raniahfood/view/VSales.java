@@ -94,7 +94,7 @@ public class VSales extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Logout");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -787,8 +787,8 @@ public class VSales extends javax.swing.JFrame {
         jTable1.setModel(model);
         if (penjualan != null) {
             for (int j = 0; j < penjualan.size(); j++) {
-                model.addRow(new Object[]{"p"+penjualan.get(j).getId_penjualan(), penjualan.get(j).getTgl_penjualan(), penjualan.get(j).getAlamat_pelanggan(),
-                penjualan.get(j).getNama_pelanggan(),penjualan.get(j).getUang()});
+                model.addRow(new Object[]{"p"+penjualan.get(j).getId_penjualan(), penjualan.get(j).getNama_pelanggan(), penjualan.get(j).getAlamat_pelanggan(),
+                penjualan.get(j).getTgl_penjualan(),penjualan.get(j).getUang()});
         }
 
 //            jTable1.setValueAt(bahan.get(j).getNama_bahan(), j, 0);

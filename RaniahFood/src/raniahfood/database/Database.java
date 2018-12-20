@@ -54,21 +54,21 @@ public class Database {
             System.out.println("Error: " + e.getMessage()); 
         } 
     }
-    public List<MKaryawan> listKoki(){
-         List<MKaryawan> koki=new ArrayList<>();
-         try{
-             String query="SELECT * FROM `karyawan` WHERE role='koki'";
-             ResultSet rs=statement.executeQuery(query);
-              while(rs.next()){
-                 MKaryawan k = new MKaryawan(rs.getString("id_karyawan"),rs.getString("nama_karyawan"),rs.getString("password"),rs.getString("role")); 
-                 koki.add(k);  
-             }
-             return koki;
-         }catch(SQLException ex){
-             System.out.println("Get data gagal");
-             return null;
-         }
-     }
+//    public List<MKaryawan> listKoki(){
+//         List<MKaryawan> koki=new ArrayList<>();
+//         try{
+//             String query="SELECT * FROM `karyawan` WHERE role='koki'";
+//             ResultSet rs=statement.executeQuery(query);
+//              while(rs.next()){
+//                 MKaryawan k = new MKaryawan(rs.getString("id_karyawan"),rs.getString("nama_karyawan"),rs.getString("password"),rs.getString("role")); 
+//                 koki.add(k);  
+//             }
+//             return koki;
+//         }catch(SQLException ex){
+//             System.out.println("Get data gagal");
+//             return null;
+//         }
+//     }
 
 
     
@@ -114,7 +114,7 @@ public class Database {
             ResultSet rs=statement.getGeneratedKeys();
             JOptionPane.showMessageDialog(null, "Data Bahan Telah Ditambah");
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Data Sudah Ada");
             System.out.println("Semua data harus terisi"+ex.toString());
         }
     }
@@ -185,7 +185,7 @@ public class Database {
             ResultSet rs=statement.getGeneratedKeys();
             JOptionPane.showMessageDialog(null, "Data Produk Telah Ditambah");
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Data Sudah Ada");
             System.out.println("Semua data harus terisi"+ex.toString());
         }
     }
@@ -270,7 +270,7 @@ public class Database {
             ResultSet rs=statement.getGeneratedKeys();
             JOptionPane.showMessageDialog(null, "Data Karyawan Telah Ditambah");
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Data Sudah Ada");
             System.out.println("Semua data harus terisi"+ex.toString());
         }
     }

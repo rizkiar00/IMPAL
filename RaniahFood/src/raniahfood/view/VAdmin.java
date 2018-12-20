@@ -559,8 +559,6 @@ public class VAdmin extends javax.swing.JFrame {
             }
         });
 
-        jTextField9.setText("jTextField9");
-
         jLabel15.setText("Pembayaran");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -1210,7 +1208,7 @@ public class VAdmin extends javax.swing.JFrame {
     public void setDataTransaksi(List<Penjualan> penjualan){
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        jTable1.setModel(model);
+        jTable2.setModel(model);
         if (penjualan != null) {
             for (int j = 0; j < penjualan.size(); j++) {
                 model.addRow(new Object[]{"p"+penjualan.get(j).getId_penjualan(), penjualan.get(j).getTgl_penjualan(), penjualan.get(j).getAlamat_pelanggan(),

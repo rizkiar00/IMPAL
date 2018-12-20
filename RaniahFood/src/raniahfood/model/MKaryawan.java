@@ -11,7 +11,7 @@ package raniahfood.model;
  */
 public class MKaryawan {
     
-    private String username;
+    String username;
     String nama;
     String password;
     String role;

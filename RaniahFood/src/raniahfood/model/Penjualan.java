@@ -12,7 +12,7 @@ import java.util.*;
  * @author dev
  */
 public class Penjualan {
-    private String id_penjualan;
+    String id_penjualan;
     String tgl_penjualan;
     String nama_pelanggan;
     String alamat_pelanggan;
