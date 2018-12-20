@@ -18,9 +18,10 @@ import raniahfood.model.*;
  */
 public class raniahfood {
     private Database db;
-    
-    List<MKaryawan> listkoki = new ArrayList();
+    List<MKaryawan> listkaryawan = new ArrayList();
     List<Bahan> listbahan = new ArrayList();
+    List<Produk> listproduk = new ArrayList();
+    List<Penjualan> listpenjualan = new ArrayList();
 
     public raniahfood() {
         this.db=new Database();
